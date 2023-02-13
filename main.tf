@@ -24,7 +24,7 @@ resource "random_string" "random" {
 
 resource "docker_container" "nodered_container" {
   name  = join("-",["nodered", random_string.random[count.index].result])
-  count = 2 
+  count = 1 
   image = docker_image.nodered_image.latest
   ports {
     internal = 1880
@@ -32,19 +32,32 @@ resource "docker_container" "nodered_container" {
   }
 }
 
-output "ip-address" {
-  value = join(":", flatten([docker_container.nodered_container[*].ip_address, docker_container.nodered_container[*].ports[0].external]))
-  description = "the IP address and external port of the container"
+
+resource "docker_container" "nodered_container2" {
+  name = "nodered-7cz1"  
+  image = docker_image.nodered_image.latest
 }
 
-output "container_network" {
-  value = join(":", [docker_container.nodered_container[0].ip_address, docker_container.nodered_container[0].ports[0].external] )
-  description = "IP address and external port of the container(s)"
+
+resource "docker_container" "nodered_container3" {
+  name = "nodered-2yn2"  
+  image = docker_image.nodered_image.latest
 }
 
-output "container_names" {
-  value = docker_container.nodered_container[*].name
-  }
+
+# output "ip-address" {
+#   value = join(":", flatten([docker_container.nodered_container[*].ip_address, docker_container.nodered_container[*].ports[0].external]))
+#   description = "the IP address and external port of the container"
+# }
+
+# output "container_network" {
+#   value = join(":", [docker_container.nodered_container[0].ip_address, docker_container.nodered_container[0].ports[0].external] )
+#   description = "IP address and external port of the container(s)"
+# }
+
+# output "container_names" {
+#   value = docker_container.nodered_container[*].name
+#   }
   
 output  "ipaddress_and_ports_loop" {
  value = [for i in docker_container.nodered_container[*]: join(":",[i.ip_address], i.ports[*]["external"])]
