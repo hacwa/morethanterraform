@@ -32,11 +32,11 @@ resource "docker_container" "nodered_container" {
   }
 }
 
-output "container1" {
-  value = join(":", [docker_container.nodered_container[0].ip_address, docker_container.nodered_container[0].ports[0].external, docker_container.nodered_container[0].name] )
-  description = "the name, IP address and external port of the container"
+output "container_network" {
+  value = join(":", [docker_container.nodered_container[0].ip_address, docker_container.nodered_container[0].ports[0].external] )
+  description = "IP address and external port of the container(s)"
 }
-output "container2" {
-  value = join(":", [docker_container.nodered_container[1].ip_address, docker_container.nodered_container[1].ports[0].external, docker_container.nodered_container[1].name] )
-  description = "the name, IP address and external port of the container"
-}
+
+output "container_names" {
+  value = docker_container.nodered_container[*].name
+  }
