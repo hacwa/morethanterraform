@@ -45,3 +45,7 @@ output "container_network" {
 output "container_names" {
   value = docker_container.nodered_container[*].name
   }
+  
+output  "ipaddress_and_ports_loop" {
+ value = [for i in docker_container.nodered_container[*]: join(":",[i.ip_address], i.ports[*]["external"])]
+}
