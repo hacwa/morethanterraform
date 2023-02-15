@@ -15,9 +15,12 @@ provider "docker" {
 variable "ext_port" {
   type = number
   default = 1880
-  
-}
+  }
 
+variable "int_port" {
+  type = number
+  default = 1880
+  }
 
 resource "docker_image" "nodered_image" {
   name = "nodered/node-red:latest"
@@ -36,7 +39,7 @@ resource "docker_container" "nodered_container" {
   count = 1 
   image = docker_image.nodered_image.latest
   ports {
-    internal = 1880
+    internal = var.int_port
     external = var.ext_port
   }
 }
