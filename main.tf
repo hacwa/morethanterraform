@@ -15,12 +15,27 @@ provider "docker" {
 variable "ext_port" {
   type = number
   default = 1880
+    validation { 
+  condition = var.ext_port == 1880
+  error_message = "The external port must be 1880"
+   
   }
+ }
+
 
 variable "int_port" {
   type = number
   default = 1880
+  
+  validation { 
+  condition = var.int_port == 1880
+  error_message = "The internal port must be 1880"
+    }
   }
+
+
+  
+  
 
 resource "docker_image" "nodered_image" {
   name = "nodered/node-red:latest"
@@ -50,21 +65,7 @@ resource "docker_container" "nodered_container" {
   }
 }
 
-
-# output "ip-address" {
-#   value = join(":", flatten([docker_container.nodered_container[*].ip_address, docker_container.nodered_container[*].ports[0].external]))
-#   description = "the IP address and external port of the container"
-# }
-
-# output "container_network" {
-#   value = join(":", [docker_container.nodered_container[0].ip_address, docker_container.nodered_container[0].ports[0].external] )
-#   description = "IP address and external port of the container(s)"
-# }
-
-# output "container_names" {
-#   value = docker_container.nodered_container[*].name
-#   }
-  
 output  "ipaddress_and_ports_loop" {
  value = [for i in docker_container.nodered_container[*]: join(":",[i.ip_address], i.ports[*]["external"])]
-}
+}      
+
