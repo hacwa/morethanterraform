@@ -1,3 +1,19 @@
+variable "env" {
+    type = string
+    default = "dev"
+    description = "env to deploy to"
+}
+
+variable "image" {
+    type = map
+    description = "image for container"
+    default = {
+        dev = "nodered/node-red:latest"
+        prod = "nodered/node-red:latest-minimal"
+    }
+}
+
+
 locals {
 container_count = length(var.ext_port)
 }
