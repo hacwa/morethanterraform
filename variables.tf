@@ -6,7 +6,6 @@ variable "container_count" {
 
 variable "ext_port" {
   type = number
-  sensitive = true
     validation { 
   condition = var.ext_port <= 65535 && var.ext_port > 0
   error_message = "The external port be within the port range 0 - 65535"
