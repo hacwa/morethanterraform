@@ -16,8 +16,8 @@ variable "ext_port" {
   type = number
   default = 1880
     validation { 
-  condition = var.ext_port == 1880
-  error_message = "The external port must be 1880"
+  condition = var.ext_port <= 65535 && var.ext_port > 0
+  error_message = "The external port be within the port range 0 - 65535"
    
   }
  }
