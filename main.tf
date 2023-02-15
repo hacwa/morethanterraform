@@ -31,4 +31,3 @@ resource "docker_container" "nodered_container" {
     external = var.ext_port
   }
 }
-
