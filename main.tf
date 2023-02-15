@@ -7,8 +7,13 @@ terraform {
   }
 }
 
+
+
 provider "docker" {
 }
+
+variable "ext_port" {}
+
 
 resource "docker_image" "nodered_image" {
   name = "nodered/node-red:latest"
@@ -28,20 +33,8 @@ resource "docker_container" "nodered_container" {
   image = docker_image.nodered_image.latest
   ports {
     internal = 1880
-#    external = 1880
+    external = var.ext_port
   }
-}
-
-
-resource "docker_container" "nodered_container2" {
-  name = "nodered-7cz1"  
-  image = docker_image.nodered_image.latest
-}
-
-
-resource "docker_container" "nodered_container3" {
-  name = "nodered-2yn2"  
-  image = docker_image.nodered_image.latest
 }
 
 
